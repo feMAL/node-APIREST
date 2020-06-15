@@ -124,10 +124,33 @@ const deleteProduct = (req,res) => {
 }
 
 
+const searchProduts = (req,res) => {
+    let termino = req.params.termino
+
+    let regExp = new RegExp(termino,'i')
+
+    Product.find({nombre: regExp, disponible:true})
+        .populate('usuario','name email')
+        .populate('categoria', 'name description')
+        .exec({},(err,products)=>{
+            if(err){
+                return res.status(500).send({status : 'error', err })
+            }
+            if(!products){
+                return res.status(404).send({status : 'error', err: 'no hay productos definidos' })
+            }else{
+                res.status(200).send({status:'ok', products})
+            }
+        })
+
+
+}
+
 module.exports = {
     getProducts,
     getProduct,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    searchProduts
 }
