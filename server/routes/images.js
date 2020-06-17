@@ -1,4 +1,5 @@
 const express = require('express')
+const { verifyTokenImg } = require('../middlewares/middleware')
 
 const fs = require('fs')
 const path = require('path')
@@ -8,7 +9,7 @@ const Product = require('../models/product')
 
 const app = express()
 
-app.get('/images/:type/:img',(req,res)=>{
+app.get('/images/:type/:img',verifyTokenImg,(req,res)=>{
 
     let tipo = req.params.type
     let img = req.params.img
