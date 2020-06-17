@@ -14,6 +14,8 @@ const userRoute = require('./routes/users')
 const loginRoute = require('./routes/login')
 const categoryRoute = require('./routes/category')
 const productRoute = require('./routes/product')
+const uploadsRoute = require('./routes/upload')
+const imagesRoute = require('./routes/images')
 
 console.log(' [+] Server waking up.')
 
@@ -21,15 +23,18 @@ console.log(' [+] Server waking up.')
 app.use(bodyParser.urlencoded({extended:false}));
 //parse json activado
 app.use(bodyParser.json());
-
-console.log(path.resolve(__dirname, '../public'))
-
+//Middleware para exponer una carpeta
 app.use(express.static(path.resolve(__dirname, '../public')))
 
 /*Agreando Routers*/
-app.use([userRoute,loginRoute,categoryRoute,productRoute])
-
-
+app.use([
+    userRoute,
+    loginRoute,
+    categoryRoute,
+    productRoute,
+    uploadsRoute,
+    imagesRoute
+])
 
 //Connectando a mongoose
 mongoose.connect('mongodb://localhost:27017/api_rest_model_2',{
